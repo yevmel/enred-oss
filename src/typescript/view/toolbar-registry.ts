@@ -25,12 +25,17 @@ export interface ToolbarContext {
   h: Handlers;
 }
 
+export type ToolbarAlign = "left" | "right";
+
 export interface ToolbarItem {
   /** Unique across the whole registry; re-registering the same id replaces it. */
   id: string;
-  /** Ascending sort key for left-to-right position. Built-ins use 0, 10, 20, …
-   *  — leave gaps so items can be slotted in between without renumbering. */
+  /** Ascending sort key for left-to-right position *within its `align` side*.
+   *  Built-ins use 0, 10, 20, … — leave gaps so items can be slotted in
+   *  between without renumbering. */
   order: number;
+  /** Which side of the toolbar this lands on. Defaults to "left". */
+  align?: ToolbarAlign;
   render: (ctx: ToolbarContext) => TemplateResult;
 }
 
@@ -44,6 +49,7 @@ export function unregisterToolbarItem(id: string): void {
   items.delete(id);
 }
 
-export function getToolbarItems(): ToolbarItem[] {
-  return [...items.values()].sort((a, b) => a.order - b.order);
+/** All registered items for one side of the toolbar, sorted by `order`. */
+export function getToolbarItems(align: ToolbarAlign = "left"): ToolbarItem[] {
+  return [...items.values()].filter((i) => (i.align ?? "left") === align).sort((a, b) => a.order - b.order);
 }

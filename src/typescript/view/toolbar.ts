@@ -13,7 +13,9 @@ import { getToolbarItems, type ToolbarContext } from "./toolbar-registry.ts";
 export function toolbar(ctx: ToolbarContext): TemplateResult {
   return html`
     <div style="height:62px;flex:none;display:flex;align-items:center;gap:10px;padding:0 16px;">
-      ${getToolbarItems().map((item) => item.render(ctx))}
+      ${getToolbarItems("left").map((item) => item.render(ctx))}
+      <div style="flex:1;"></div>
+      ${getToolbarItems("right").map((item) => item.render(ctx))}
     </div>
   `;
 }
