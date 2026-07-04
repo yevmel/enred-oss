@@ -1,0 +1,45 @@
+/* Global resets and the few things inline styles can't express: hover and
+   focus states. Everything else is styled inline in the lit-html templates,
+   mirroring the prototype. The accent colour and every theme token are
+   published as CSS variables on the root app element (see view/app.ts,
+   theme/tokens.ts), so these rules read `var(--token-name)` rather than
+   hardcoding colors — they stay correct in both light and dark mode without
+   duplicating the palette here. */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+  background: #e9e9ec;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Toolbar buttons */
+.tb:hover {
+  background: var(--surface-hover) !important;
+}
+
+/* Focused form fields pick up the configured accent colour */
+.fld:focus {
+  border-color: var(--accent, #2f6bdb) !important;
+}
+
+/* Delete buttons in the props panel share a hover tint */
+.danger-btn:hover {
+  background: var(--danger-bg-hover) !important;
+}
+
+/* Saved-diagram rows in the Load dialog */
+.saved-row:hover {
+  border-color: var(--accent, #2f6bdb) !important;
+  background: var(--surface-hover) !important;
+}
